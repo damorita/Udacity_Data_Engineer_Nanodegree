@@ -31,3 +31,19 @@ The etl script contains the following steps to create the data model:
 + /data
     + Contains data files for Song and log data.
 
+---
+
+## Data Model 
+
+### Tables
+1) Songs Table
+2) Artist Table
+3) Time Table
+4) Users Table
+5) Songplay Table
+
+### Structure
+The model is a star schema with the Songs table being the main fact table with the others being dimension tables that additoonal information to expand information about the songs.
+
+### Other Notes
+The Model is still yet to be fully cleaned and optimized. For example there are duplications in the Users table. This occurs due to the users playing multiple songs hence their names appear multiple times when represented in a tabular format. The rows should be filtered to unique users before inserted into the table.
