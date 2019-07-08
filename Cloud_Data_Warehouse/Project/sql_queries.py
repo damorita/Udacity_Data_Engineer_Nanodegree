@@ -56,7 +56,7 @@ staging_songs_table_create = ("""CREATE TABLE IF NOT EXISTS staging_songs(
 
 songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays(
     songplay_id INTEGER IDENTITY(0,1) PRIMARY KEY,
-    start_time BIGINT REFERENCES time(start_time),
+    start_time TIMESTAMP REFERENCES time(start_time),
     user_id VARCHAR(50) REFERENCES users(user_id),
     level VARCHAR(50),
     song_id VARCHAR(100) REFERENCES songs(song_id),
@@ -95,7 +95,7 @@ artist_table_create = ("""CREATE TABLE IF NOT EXISTS artists(
 """)
 
 time_table_create = ("""CREATE TABLE IF NOT EXISTS time(
-    start_time BIGINT PRIMARY KEY,
+    start_time TIMESTAMP PRIMARY KEY,
     hour INTEGER,
     day INTEGER,
     week INTEGER,
