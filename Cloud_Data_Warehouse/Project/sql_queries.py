@@ -56,8 +56,8 @@ staging_songs_table_create = ("""CREATE TABLE IF NOT EXISTS staging_songs(
 
 songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays(
     songplay_id INTEGER IDENTITY(0,1) PRIMARY KEY,
-    start_time TIMESTAMP REFERENCES time(start_time),
-    user_id VARCHAR(50) REFERENCES users(user_id),
+    start_time TIMESTAMP NOT NULL REFERENCES time(start_time),
+    user_id VARCHAR(50) NOT NULL REFERENCES users(user_id),
     level VARCHAR(50),
     song_id VARCHAR(100) REFERENCES songs(song_id),
     artist_id VARCHAR(100) REFERENCES artists(artist_id),
@@ -177,20 +177,24 @@ artist_table_insert = ("""INSERT INTO artists (artist_id, name, location, latitu
     WHERE artist_id NOT IN (SELECT DISTINCT artist_id FROM artists)
 """)
 
-time_table_insert = ("""INSERT INTO time (start_time, hour, day, week, month, year, weekday)
-    SELECT 
+time_table_insert = ("""
+    INSERT INTO time (
         start_time, 
+        hour, 
+        day, 
+        week, 
+        month, 
+        year, 
+        weekday)
+    SELECT DISTINCT  TIMESTAMP 'epoch' + ts/1000 *INTERVAL '1 second' as start_time, 
         EXTRACT(hr from start_time) AS hour,
         EXTRACT(d from start_time) AS day,
         EXTRACT(w from start_time) AS week,
         EXTRACT(mon from start_time) AS month,
         EXTRACT(yr from start_time) AS year, 
         EXTRACT(weekday from start_time) AS weekday 
-    FROM (
-    	SELECT DISTINCT  TIMESTAMP 'epoch' + ts/1000 *INTERVAL '1 second' as start_time 
-        FROM staging_events s     
-    )
-    WHERE start_time NOT IN (SELECT DISTINCT start_time FROM time)
+    FROM staging_events
+    WHERE staging_events.page = 'NextSong'
 """)
 
 # QUERY LISTS
