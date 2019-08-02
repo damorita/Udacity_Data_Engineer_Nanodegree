@@ -32,12 +32,7 @@ def process_song_data(spark, input_data, output_data):
     Keywords:
     * spark         -- reference to Spark session.
     * input_data    -- path to input_data to be processed (song_data)
-    * output_data   -- path to location to store the output (parquet files).
-    Output:
-    * songs_table   -- directory with parquet files
-                       stored in output_data path.
-    * artists_table -- directory with parquet files
-                       stored in output_data path."""
+    * output_data   -- path to location to store the output (parquet files)."""
     
     # get filepath to song data file
     #song_data = input_data + "song-data/*/*/*/*.json"
@@ -76,10 +71,14 @@ def process_song_data(spark, input_data, output_data):
 
 
 def process_log_data(spark, input_data, output_data):
-    """ Processing log data (users, time table, songplay) by the JSON given by S3,
-        after data normalization and transformation
-        these data are wrote as parquet files """   
-  
+    """ Load JSON log_data from input_data,
+        process the data to extract users, time and songplay tables, and
+        store the queried data to parquet files. 
+    Keywords:
+    * spark         -- reference to Spark session.
+    * input_data    -- path to input_data to be processed (song_data)
+    * output_data   -- path to location to store the output (parquet files)."""
+
     # get filepath to log data file
     log_data = input_data
 
