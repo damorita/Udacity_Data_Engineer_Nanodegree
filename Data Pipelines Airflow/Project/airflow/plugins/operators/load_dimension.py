@@ -9,6 +9,9 @@ class LoadDimensionOperator(BaseOperator):
     * redshift_conn_id      -- AWS Redshift connection ID
     * table                 -- AWS Redshift target table name
     * query                 -- Query name to be used from SqlQueries.
+    * insert                -- How to insert data to target_table
+                                (append: on top of existing data 
+                                 truncate_insert: truncate table + insert new data)
 
     Output:
     * Staging data in AWS Redshift is inserted from staging tables to Dimension table.
@@ -30,6 +33,7 @@ class LoadDimensionOperator(BaseOperator):
                  redshift_conn_id="",
                  table="",
                  query="",
+                 insert="append",
                  *args, **kwargs):
 
         super(LoadDimensionOperator, self).__init__(*args, **kwargs)
