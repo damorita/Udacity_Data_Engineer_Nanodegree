@@ -9,7 +9,7 @@ class LoadDimensionOperator(BaseOperator):
     * redshift_conn_id      -- AWS Redshift connection ID
     * table                 -- AWS Redshift target table name
     * query                 -- Query name to be used from SqlQueries.
-    * insert                -- How to insert data to target_table
+    * insert                -- How to insert data to table
                                 (append: on top of existing data 
                                  truncate_insert: truncate table + insert new data)
 
@@ -43,6 +43,7 @@ class LoadDimensionOperator(BaseOperator):
         self.redshift_conn_id = redshift_conn_id
         self.table = table
         self.query = query
+        self.insert = insert
 
     def execute(self, context):
         #self.log.info('LoadDimensionOperator not implemented yet')
@@ -50,6 +51,7 @@ class LoadDimensionOperator(BaseOperator):
         self.log.info(f"Loading dimension table {self.table} in Redshift")
         formatted_sql = LoadDimensionOperator.insert_sql.format(
             self.table,
-            self.query
+            self.query,
+            self.insert
         )
         redshift.run(formatted_sql)

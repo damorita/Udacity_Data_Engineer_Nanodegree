@@ -9,6 +9,7 @@ class LoadFactOperator(BaseOperator):
     * redshift_conn_id      -- AWS Redshift connection ID
     * table                 -- AWS Redshift target table name
     * query                 -- Query name to be used from SqlQueries.
+    * insert                 -- parameter for appending or truncating then insert
 
     Output:
     * Staging data in AWS Redshift is inserted from staging tables to Fact table.
@@ -25,11 +26,10 @@ class LoadFactOperator(BaseOperator):
                  # Define  operators params (with defaults) here
                  # Example:
                  # conn_id = your-connection-name
-                 # target_columns="",
-                 # insert_mode="append",
                  redshift_conn_id="",
                  table="",
                  query="",
+                 insert="append",
                  *args, **kwargs):
 
         super(LoadFactOperator, self).__init__(*args, **kwargs)
@@ -39,6 +39,7 @@ class LoadFactOperator(BaseOperator):
         self.redshift_conn_id = redshift_conn_id
         self.table = table
         self.query = query
+        self.insert = insert
 
     def execute(self, context):
         self.log.info('LoadFactOperator not implemented yet')
@@ -46,6 +47,7 @@ class LoadFactOperator(BaseOperator):
         self.log.info("Loading fact table in Redshift")
         formatted_sql = LoadFactOperator.insert_sql.format(
             self.table,
-            self.query
+            self.query,
+            self.insert
         )
         redshift.run(formatted_sql)
