@@ -5,7 +5,7 @@
 
 ## Prerequisites
 
-Tables must be created in Redshift before executing the DAG workflow. The create tables statements can be found in:
+All tables must be created, and running in Redshift before executing the DAG workflow. The create tables statements can be found in:
 
 `create_tables.sql`
 
@@ -17,11 +17,7 @@ Data resides in two directories that contain files in JSON format:
 2. Song data: s3://udacity-dend/song_data
 
 
-## Data Quality Checks
-
-In order to ensure the tables were properly loaded, a data quality checking is performed to count the total records each table has. If a table has no rows then the workflow will fail and throw an error message.
-
-## Scripts Usage
+## Python Scripts 
 
 * `create_tables.sql` - Contains the SQL statements for all necessary tables 
 * `udac_example_dag.py` - The DAG configuration file 
